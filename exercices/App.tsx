@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Pai from './components/indireta/Pai';
+import ContadorV2 from './components/contador/ContadorV2';
 
 export default () => (
   <View style={style.App}>
-    <Pai />
+    <ContadorV2 />
   </View>
 );
 const style = StyleSheet.create({

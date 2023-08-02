@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Pai from './components/direta/Pai';
+import Pai from './components/indireta/Pai';
 
 export default () => (
   <View style={style.App}>

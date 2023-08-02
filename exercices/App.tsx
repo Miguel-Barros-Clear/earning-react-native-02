@@ -1,9 +1,10 @@
-import Diferenciar from './components/Diferenciar';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import ParImpar from './components/ParImpar';
 
 export default () => (
-  <View style={style.App}>
-    <Diferenciar />
-  </View>
+  <SafeAreaView style={style.App}>
+    <ParImpar num={3} />
+  </SafeAreaView>
 );
 
 const style = StyleSheet.create({

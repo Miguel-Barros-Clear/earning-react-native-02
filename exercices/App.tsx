@@ -1,11 +1,15 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import DigiteSeuNome from './components/DigiteSeuNome';
+import Quadrado from './components/layout/Quadrado';
 
 export default () => (
   <SafeAreaView style={style.App}>
-    <DigiteSeuNome />
+    <Quadrado />
+    <Quadrado cor="#900" />
+    <Quadrado cor="#090" />
+    <Quadrado cor="#009" />
+    <Quadrado cor="#990" />
   </SafeAreaView>
 );
 

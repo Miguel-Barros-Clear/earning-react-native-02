@@ -1,14 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import Titulo from './components/Titulo';
+import Contador from './components/Contador';
 
 export default () => (
   <View style={style.App}>
-    <Titulo
-      principal="Cadastro Produto"
-      secundario="Tela de Cadastro do Produto"
-    />
+    <Contador inicial={100} passo={13} />
+    <Contador />
   </View>
 );
 const style = StyleSheet.create({

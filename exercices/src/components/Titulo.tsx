@@ -1,12 +1,18 @@
 import React from 'react';
-import { Text } from 'react-native';
-import Estilo from './estilo';
+import { View, StyleSheet } from 'react-native';
 
-export default props => {
-  return (
-    <>
-      <Text style={Estilo.txtG}>{props.principal}</Text>
-      <Text>{props.secundario}</Text>
-    </>
-  );
-};
+import Botao from './components/Botao';
+
+export default () => (
+  <View style={style.App}>
+    <Botao />
+  </View>
+);
+const style = StyleSheet.create({
+  App: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+});

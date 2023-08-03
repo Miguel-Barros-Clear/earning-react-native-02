@@ -11,6 +11,7 @@ import {
   hadExplosion,
   wonGame,
   showMines,
+  invertFlag,
 } from './src/functions';
 
 export default class App extends Component {
@@ -18,6 +19,19 @@ export default class App extends Component {
     super(props);
     this.state = this.createState();
   }
+
+  onSelectField = (row, column) => {
+    const board = cloneBoard(this.state.board);
+    invertFlag(board, row, column);
+    const won = wonGame(board);
+
+    if (won) {
+      Alert.alert('Parabéns', 'Você venceu!');
+    }
+
+    this.setState({board, won});
+  };
+
   minesAmount = () => {
     const cols = params.getColumnsAmount();
     const rows = params.getRowsAmount();
@@ -60,7 +74,11 @@ export default class App extends Component {
           {params.getRowsAmount()}x{params.getColumnsAmount}
         </Text>
         <View style={styles.board}>
-          <MineField board={this.state.board} onOpenField={this.onOpenField} />
+          <MineField
+            board={this.state.board}
+            onOpenField={this.onOpenField}
+            onSelectField={this.onSelectField}
+          />
         </View>
       </View>
     );

@@ -1,6 +1,8 @@
 import {Text, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 import Field from './src/components/Field';
+import params from './src/params';
+import Flag from './src/components/Flag';
 
 export default class App extends Component {
   render() {
@@ -20,11 +22,11 @@ export default class App extends Component {
         <Field mined />
         <Field mined opened />
         <Field mined opened exploded />
+        <Field flagged opened />
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -36,5 +38,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333',
   },
 });

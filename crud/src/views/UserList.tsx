@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Alert, FlatList} from 'react-native';
-import users from '../data/users';
 import {Button, Icon, ListItem} from 'react-native-elements';
+import UsersContext from '../context/UserContext';
 
 export default props => {
+  const {state} = useContext(UsersContext);
   function confirmUserDeletion(user) {
     Alert.alert('Excluir Usuário', 'Deseja excluir o usuário', [
       {
@@ -17,7 +18,6 @@ export default props => {
       },
     ]);
   }
-
   function getActions(user) {
     return (
       <>
@@ -34,7 +34,6 @@ export default props => {
       </>
     );
   }
-
   function getUserItem({item: user}) {
     return (
       <ListItem
@@ -53,7 +52,7 @@ export default props => {
     <View>
       <FlatList
         keyExtractor={user => user.id.toString()}
-        data={users}
+        data={state.users}
         renderItem={getUserItem}
       />
     </View>

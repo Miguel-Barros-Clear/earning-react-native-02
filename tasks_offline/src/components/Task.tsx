@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import commonStyles from '../commonStyles';
@@ -17,7 +16,6 @@ export default props => {
     props.doneAt != null ? {textDecorationLine: 'line-through'} : {};
   const date = props.doneAt ? props.doneAt : props.estimateAt;
   const formattedDate = moment(date).locale('pt-br').format('ddd, D [de] MMMM');
-
   const getRightContent = () => {
     return (
       <TouchableOpacity style={styles.right}>
@@ -26,8 +24,19 @@ export default props => {
     );
   };
 
+  const getLeftContent = () => {
+    return (
+      <View style={styles.left}>
+        <Icon name="trash" size={20} color="#FFF" style={styles.excludeIcon} />
+        <Text style={styles.excludeText}>Excluir</Text>
+      </View>
+    );
+  };
+
   return (
-    <Swipeable renderRightActions={getRightContent}>
+    <Swipeable
+      renderRightActions={getRightContent}
+      renderLeftActions={getLeftContent}>
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
           <View style={styles.checkContainer}>
@@ -42,7 +51,6 @@ export default props => {
     </Swipeable>
   );
 };
-
 function getCheckView(doneAt) {
   if (doneAt != null) {
     return (
@@ -61,6 +69,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignItems: 'center',
     paddingVertical: 10,
+    backgroundColor: '#FFF',
   },
   checkContainer: {
     width: '20%',
@@ -98,5 +107,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
+  },
+  left: {
+    flex: 1,
+    backgroundColor: 'red',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  excludeIcon: {
+    marginLeft: 10,
+  },
+  excludeText: {
+    fontFamily: commonStyles.fontFamily,
+    color: '#FFF',
+    fontSize: 20,
+    margin: 10,
   },
 });

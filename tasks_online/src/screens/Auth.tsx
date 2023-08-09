@@ -5,16 +5,13 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Platform,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
-
 import backgroundImage from '../../assets/imgs/login.jpg';
 import commonStyles from '../commonStyles';
 import AuthInput from '../components/AuthInput';
-
 import {server, showError, showSuccess} from '../common';
-
 const initialState = {
   name: '',
   email: '',
@@ -22,12 +19,10 @@ const initialState = {
   confirmPassword: '',
   stageNew: false,
 };
-
 export default class Auth extends Component {
   state = {
     ...initialState,
   };
-
   signinOrSignup = () => {
     if (this.state.stageNew) {
       this.signup();
@@ -35,7 +30,6 @@ export default class Auth extends Component {
       this.signin();
     }
   };
-
   signup = async () => {
     try {
       await axios.post(`${server}/signup`, {
@@ -44,21 +38,18 @@ export default class Auth extends Component {
         password: this.state.password,
         confirmPassword: this.state.confirmPassword,
       });
-
       showSuccess('Usuário cadastro!');
       this.setState({...initialState});
     } catch (e) {
       showError(e);
     }
   };
-
   signin = async () => {
     try {
       const res = await axios.post(`${server}/signin`, {
         email: this.state.email,
         password: this.state.password,
       });
-
       axios.defaults.headers.common.Authorization = `bearer ${res.data.token}`;
       this.props.navigation.navigate('Home');
     } catch (e) {
@@ -67,6 +58,17 @@ export default class Auth extends Component {
   };
 
   render() {
+    const validations = [];
+    validations.push(this.state.email && this.state.email.includes('@'));
+    validations.push(this.state.password && this.state.password.length >= 6);
+
+    if (this.state.stageNew) {
+      validations.push(this.state.name && this.state.name.trim().length >= 3);
+      validations.push(this.state.password === this.state.confirmPassword);
+    }
+
+    const validForm = validations.reduce((t, a) => t && a);
+
     return (
       <ImageBackground source={backgroundImage} style={styles.background}>
         <Text style={styles.title}>Tasks</Text>
@@ -108,8 +110,12 @@ export default class Auth extends Component {
               onChangeText={confirmPassword => this.setState({confirmPassword})}
             />
           )}
-          <TouchableOpacity onPress={this.signinOrSignup}>
-            <View style={styles.button}>
+          <TouchableOpacity onPress={this.signinOrSignup} disabled={!validForm}>
+            <View
+              style={[
+                styles.button,
+                validForm ? {} : {backgroundColor: '#AAA'},
+              ]}>
               <Text style={styles.buttonText}>
                 {this.state.stageNew ? 'Registrar' : 'Entrar'}
               </Text>
@@ -129,7 +135,6 @@ export default class Auth extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -158,13 +163,13 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 10,
     backgroundColor: '#FFF',
-    padding: Platform.OS == 'ios' ? 15 : 10,
   },
   button: {
     backgroundColor: '#080',
     marginTop: 10,
     padding: 10,
     alignItems: 'center',
+    borderRadius: 7,
   },
   buttonText: {
     fontFamily: commonStyles.fontFamily,

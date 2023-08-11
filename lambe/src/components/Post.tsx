@@ -2,12 +2,14 @@ import React from 'react';
 import {View, Image, StyleSheet, Dimensions} from 'react-native';
 import Author from './Author';
 import Comments from './Comments';
+import AddComment from './AddComment';
 
 export default props => (
   <View style={styles.container}>
     <Image source={props.image} style={styles.image} />
     <Author email="wcaquino@gmail.com" nickname="Wagner" />
     <Comments comments={props.comments} />
+    <AddComment />
   </View>
 );
 

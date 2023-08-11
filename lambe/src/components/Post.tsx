@@ -7,7 +7,7 @@ import AddComment from './AddComment';
 export default props => (
   <View style={styles.container}>
     <Image source={props.image} style={styles.image} />
-    <Author email="wcaquino@gmail.com" nickname="Wagner" />
+    <Author email={props.email} nickname={props.nickname} />
     <Comments comments={props.comments} />
     <AddComment />
   </View>

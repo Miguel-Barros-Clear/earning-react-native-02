@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddPhoto from './screens/AddPhoto';
 import Profile from './screens/Profile';
+import Login from './screens/Login';
 
 import Feed from './screens/Feed';
 
@@ -35,6 +36,7 @@ export default props => (
       <Tab.Screen name="Profile" component={Feed} />
       <Tab.Screen name="AddPhoto" component={AddPhoto} />
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Login" component={Login} />
     </Tab.Navigator>
   </NavigationContainer>
 );

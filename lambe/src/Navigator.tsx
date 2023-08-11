@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AddPhoto from './screens/AddPhoto';
 
 import Feed from './screens/Feed';
 
@@ -31,6 +32,7 @@ export default props => (
       <Tab.Screen name="Feed" component={Feed} />
       <Tab.Screen name="AddPhoto" component={Feed} />
       <Tab.Screen name="Profile" component={Feed} />
+      <Tab.Screen name="AddPhoto" component={AddPhoto} />
     </Tab.Navigator>
   </NavigationContainer>
 );

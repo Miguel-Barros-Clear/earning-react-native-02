@@ -1,15 +1,18 @@
 import React, {createContext, useState} from 'react';
 import axios from 'axios';
-
 const FIREBASE_AUTH_BASE_URL =
   'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 const API_KEY = '07be5e1fdd1078361a40c08f195fd6dabe80f8f3';
+
+import useEvent from '../hooks/useEvent';
 
 const UserContext = createContext({});
 
 export const UserProvider = ({children}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const {setMessage} = useEvent();
+
   const userInternalContext = {
     name,
     email,
@@ -34,7 +37,7 @@ export const UserProvider = ({children}) => {
           setEmail(user.email);
         }
       } catch (err) {
-        console.log(err);
+        setMessage(err.message, 'Erro');
       }
     },
     login: async function (email, password) {
@@ -53,7 +56,7 @@ export const UserProvider = ({children}) => {
           setEmail(email);
         }
       } catch (err) {
-        console.log(err);
+        setMessage(err.message, 'Erro');
       }
     },
     logout: function () {

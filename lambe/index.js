@@ -10,6 +10,9 @@ import {name as appName} from './app.json';
 import Navigator from './src/Navigator';
 import {FeedProvider} from './src/data/contexts/FeedContext';
 import {UserProvider} from './src/data/contexts/UserContext';
+import axios from 'axios'
+
+axios.defaults.baseURL='https://lambe-42887-default-rtdb.firebaseio.com/'
 
 const Root = () => (
   <UserProvider>

@@ -11,9 +11,7 @@ export default props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const {createUser} = useUser();
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -39,8 +37,8 @@ export default props => {
       />
       <TouchableOpacity
         onPress={() => createUser({name, email, password})}
-        style={styles.buttom}>
-        <Text style={styles.buttomText}>Salvar</Text>
+        style={styles.button}>
+        <Text style={styles.buttonText}>Salvar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,12 +49,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttom: {
+  button: {
     marginTop: 30,
     padding: 10,
     backgroundColor: '#4286f4',
   },
-  buttomText: {
+  buttonText: {
     fontSize: 20,
     color: '#FFF',
   },

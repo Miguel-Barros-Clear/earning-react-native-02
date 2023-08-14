@@ -11,22 +11,17 @@ import {
   Platform,
 } from 'react-native';
 import useEffectIf from '../hooks/UseEffectIf';
-
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import useFeed from '../data/hooks/useFeed';
 import useUser from '../data/hooks/useUser';
 import useEvent from '../data/hooks/useEvent';
-
 export default props => {
   const [image, setImage] = useState(null);
   const [comment, setComment] = useState('');
-
   const {addPost} = useFeed();
   const {name: nickname, email} = useUser();
   const {uploading} = useEvent();
-
   const canEdit = () => email != null && email.trim() != '' && !uploading;
-
   const pickImage = () => {
     launchImageLibrary(
       {
@@ -67,7 +62,6 @@ export default props => {
       comments: [{nickname, comment}],
     });
   };
-
   useEffectIf(
     () => {
       setImage(null);
@@ -77,7 +71,6 @@ export default props => {
     uploading,
     false,
   );
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -85,19 +78,19 @@ export default props => {
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.image} />
         </View>
-        <View style={styles.buttomRow}>
+        <View style={styles.buttonRow}>
           <TouchableOpacity
             onPress={pickPhoto}
             disabled={!canEdit()}
-            style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
-            <Text style={styles.buttomText}>Tirar uma foto</Text>
+            style={[styles.button, canEdit() ? {} : styles.buttonDisabled]}>
+            <Text style={styles.buttonText}>Tirar uma foto</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={pickImage}
             disabled={!canEdit()}
-            style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
-            <Text style={styles.buttomText}>Escolha a foto</Text>
+            style={[styles.button, canEdit() ? {} : styles.buttonDisabled]}>
+            <Text style={styles.buttonText}>Escolha a foto</Text>
           </TouchableOpacity>
         </View>
         <TextInput
@@ -110,8 +103,8 @@ export default props => {
         <TouchableOpacity
           onPress={save}
           disabled={!canEdit()}
-          style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
-          <Text style={styles.buttomText}>Salvar</Text>
+          style={[styles.button, canEdit() ? {} : styles.buttonDisabled]}>
+          <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -138,17 +131,17 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width / 2,
     resizeMode: 'center',
   },
-  buttomRow: {
+  buttonRow: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-around',
   },
-  buttom: {
+  button: {
     marginTop: 30,
     padding: 10,
     backgroundColor: '#4286f4',
   },
-  buttomText: {
+  buttonText: {
     fontSize: 20,
     color: '#FFF',
   },
@@ -156,7 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '90%',
   },
-  buttomDisabled: {
+  buttonDisabled: {
     backgroundColor: '#666',
   },
 });

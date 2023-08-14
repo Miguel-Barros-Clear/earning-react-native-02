@@ -10,10 +10,9 @@ export default props => {
   const {email} = useUser();
 
   const addComment = email ? <AddComment postId={props.id} /> : null;
-
   return (
     <View style={styles.container}>
-      <Image source={props.image} style={styles.image} />
+      <Image source={{uri: props.image}} style={styles.image} />
       <Author email={props.email} nickname={props.nickname} />
       <Comments comments={props.comments} />
       {addComment}

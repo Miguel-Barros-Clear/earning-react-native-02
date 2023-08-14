@@ -1,26 +1,43 @@
 import React, {createContext, useState} from 'react';
-const UserContext = createContext({});
-export const UserProvider = ({children}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-
-  const userInternalContext = {
-    name,
-    email,
-    login: function (email, password) {
-      setName('Temporario');
-      setEmail(email);
+const FeedContext = createContext({});
+export const FeedProvider = ({children}) => {
+  const [posts, setPosts] = useState([
+    {
+      id: Math.random(),
+      nickname: 'Rafael Pereira Filho',
+      email: 'rafaelprrflh@gmail.com',
+      image: require('../../../assets/imgs/fence.jpg'),
+      comments: [
+        {
+          nickname: 'John Ray Sheldon',
+          comment: 'Stunning!',
+        },
+        {
+          nickname: 'Ana Julia Arruda',
+          comment: 'Foto linda! Onder foi tirada?',
+        },
+      ],
     },
-    logout: function () {
-      setName('');
-      setEmail('');
+    {
+      id: Math.random(),
+      nickname: 'Francisco Leandro Lima',
+      email: 'fllima@gmail.com',
+      image: require('../../../assets/imgs/bw.jpg'),
+      comments: [],
+    },
+  ]);
+
+  const feedInternalContext = {
+    posts,
+    addPost: function (post) {
+      setPosts(posts.concat(post));
     },
   };
 
   return (
-    <UserContext.Provider value={userInternalContext}>
+    <FeedContext.Provider value={feedInternalContext}>
       {children}
-    </UserContext.Provider>
+    </FeedContext.Provider>
   );
 };
-export default UserContext;
+export default FeedContext;

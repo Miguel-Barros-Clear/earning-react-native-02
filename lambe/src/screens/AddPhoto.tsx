@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Alert,
   View,
   StyleSheet,
   ScrollView,
@@ -11,17 +10,16 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import useFeed from '../data/hooks/useFeed';
 import useUser from '../data/hooks/useUser';
-
 export default props => {
   const [image, setImage] = useState(null);
   const [comment, setComment] = useState('');
-
   const {addPost} = useFeed();
   const {name, email} = useUser();
+
+  const isLogged = () => email != null && email.trim() != '';
 
   const pickImage = () => {
     launchImageLibrary(
@@ -54,7 +52,6 @@ export default props => {
       },
     );
   };
-
   const save = () => {
     addPost({
       id: Math.random(),
@@ -72,7 +69,6 @@ export default props => {
     setComment('');
     props.navigation.navigate('Feed');
   };
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -81,10 +77,16 @@ export default props => {
           <Image source={image} style={styles.image} />
         </View>
         <View style={styles.buttomRow}>
-          <TouchableOpacity onPress={pickPhoto} style={styles.buttom}>
+          <TouchableOpacity
+            onPress={pickPhoto}
+            disabled={!isLogged()}
+            style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
             <Text style={styles.buttomText}>Tirar uma foto</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={pickImage} style={styles.buttom}>
+          <TouchableOpacity
+            onPress={pickImage}
+            disabled={!isLogged()}
+            style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
             <Text style={styles.buttomText}>Escolha a foto</Text>
           </TouchableOpacity>
         </View>
@@ -93,8 +95,12 @@ export default props => {
           style={styles.input}
           value={comment}
           onChangeText={setComment}
+          editable={isLogged()}
         />
-        <TouchableOpacity onPress={save} style={styles.buttom}>
+        <TouchableOpacity
+          onPress={save}
+          disabled={!isLogged()}
+          style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
           <Text style={styles.buttomText}>Salvar</Text>
         </TouchableOpacity>
       </View>
@@ -139,5 +145,8 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 20,
     width: '90%',
+  },
+  buttomDisabled: {
+    backgroundColor: '#666',
   },
 });

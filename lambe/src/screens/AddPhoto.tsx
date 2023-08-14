@@ -10,17 +10,22 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import useEffectIf from '../hooks/UseEffectIf';
+
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import useFeed from '../data/hooks/useFeed';
 import useUser from '../data/hooks/useUser';
+import useEvent from '../data/hooks/useEvent';
+
 export default props => {
   const [image, setImage] = useState(null);
   const [comment, setComment] = useState('');
 
   const {addPost} = useFeed();
   const {name: nickname, email} = useUser();
+  const {uploading} = useEvent();
 
-  const isLogged = () => email != null && email.trim() != '';
+  const canEdit = () => email != null && email.trim() != '' && !uploading;
 
   const pickImage = () => {
     launchImageLibrary(
@@ -61,10 +66,18 @@ export default props => {
       image,
       comments: [{nickname, comment}],
     });
-    setImage(null);
-    setComment('');
-    props.navigation.navigate('Feed');
   };
+
+  useEffectIf(
+    () => {
+      setImage(null);
+      setComment('');
+      props.navigation.navigate('Feed');
+    },
+    uploading,
+    false,
+  );
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -75,14 +88,15 @@ export default props => {
         <View style={styles.buttomRow}>
           <TouchableOpacity
             onPress={pickPhoto}
-            disabled={!isLogged()}
-            style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
+            disabled={!canEdit()}
+            style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
             <Text style={styles.buttomText}>Tirar uma foto</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={pickImage}
-            disabled={!isLogged()}
-            style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
+            disabled={!canEdit()}
+            style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
             <Text style={styles.buttomText}>Escolha a foto</Text>
           </TouchableOpacity>
         </View>
@@ -91,12 +105,12 @@ export default props => {
           style={styles.input}
           value={comment}
           onChangeText={setComment}
-          editable={isLogged()}
+          editable={canEdit()}
         />
         <TouchableOpacity
           onPress={save}
-          disabled={!isLogged()}
-          style={[styles.buttom, isLogged() ? {} : styles.buttomDisabled]}>
+          disabled={!canEdit()}
+          style={[styles.buttom, canEdit() ? {} : styles.buttomDisabled]}>
           <Text style={styles.buttomText}>Salvar</Text>
         </TouchableOpacity>
       </View>

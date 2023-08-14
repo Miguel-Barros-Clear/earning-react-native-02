@@ -6,17 +6,11 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-
 import useUser from '../data/hooks/useUser';
-
 export default props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {login} = useUser();
-
-  const onLogin = () => {
-    login(email, password);
-  };
 
   return (
     <View style={styles.container}>
@@ -35,7 +29,9 @@ export default props => {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity onPress={onLogin} style={styles.button}>
+      <TouchableOpacity
+        onPress={() => login(email, password)}
+        style={styles.button}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
